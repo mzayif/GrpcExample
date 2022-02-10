@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpcServer";
+
+package greet;
+
+service Message {
+  rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc GetUserMessageCount (MessageCountRequest) returns (MessageCountResponse);
+  rpc GetUserMessages (UserMessagesRequest) returns (UserMessagesResponse);
+}
+
+message MessageRequest {
+  string userName = 1;
+  string message = 2;
+}
+
+message MessageResponse {
+  string message = 1;
+}
+
+message MessageCountRequest {
+  string userName = 1;
+}
+
+message MessageCountResponse {
+  int32  sendMessageCount = 1;
+}
+  
+message UserMessagesRequest {
+  string userName = 1;
+}
+
+message UserMessagesResponse {
+  repeated string message = 1;
+}
