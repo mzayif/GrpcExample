@@ -8,6 +8,7 @@ service Message {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
   rpc GetUserMessageCount (MessageCountRequest) returns (MessageCountResponse);
   rpc GetUserMessages (UserMessagesRequest) returns (stream UserMessagesResponse);
+  rpc SendMessages (stream MessageRequest) returns (MessageResponse);
 }
 
 message MessageRequest {
@@ -32,5 +33,5 @@ message UserMessagesRequest {
 }
 
 message UserMessagesResponse {
-  repeated string message = 1;
+   string message = 1;
 }

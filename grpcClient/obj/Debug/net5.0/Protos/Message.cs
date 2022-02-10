@@ -30,13 +30,14 @@ namespace grpcServer {
             "ZXF1ZXN0EhAKCHVzZXJOYW1lGAEgASgJIjAKFE1lc3NhZ2VDb3VudFJlc3Bv",
             "bnNlEhgKEHNlbmRNZXNzYWdlQ291bnQYASABKAUiJwoTVXNlck1lc3NhZ2Vz",
             "UmVxdWVzdBIQCgh1c2VyTmFtZRgBIAEoCSInChRVc2VyTWVzc2FnZXNSZXNw",
-            "b25zZRIPCgdtZXNzYWdlGAEgAygJMuMBCgdNZXNzYWdlEjwKC1NlbmRNZXNz",
+            "b25zZRIPCgdtZXNzYWdlGAEgASgJMqYCCgdNZXNzYWdlEjwKC1NlbmRNZXNz",
             "YWdlEhUuZ3JlZXQuTWVzc2FnZVJlcXVlc3QaFi5ncmVldC5NZXNzYWdlUmVz",
             "cG9uc2USTgoTR2V0VXNlck1lc3NhZ2VDb3VudBIaLmdyZWV0Lk1lc3NhZ2VD",
-            "b3VudFJlcXVlc3QaGy5ncmVldC5NZXNzYWdlQ291bnRSZXNwb25zZRJKCg9H",
+            "b3VudFJlcXVlc3QaGy5ncmVldC5NZXNzYWdlQ291bnRSZXNwb25zZRJMCg9H",
             "ZXRVc2VyTWVzc2FnZXMSGi5ncmVldC5Vc2VyTWVzc2FnZXNSZXF1ZXN0Ghsu",
-            "Z3JlZXQuVXNlck1lc3NhZ2VzUmVzcG9uc2VCDaoCCmdycGNTZXJ2ZXJiBnBy",
-            "b3RvMw=="));
+            "Z3JlZXQuVXNlck1lc3NhZ2VzUmVzcG9uc2UwARI/CgxTZW5kTWVzc2FnZXMS",
+            "FS5ncmVldC5NZXNzYWdlUmVxdWVzdBoWLmdyZWV0Lk1lc3NhZ2VSZXNwb25z",
+            "ZSgBQg2qAgpncnBjU2VydmVyYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -1068,7 +1069,7 @@ namespace grpcServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public UserMessagesResponse(UserMessagesResponse other) : this() {
-      message_ = other.message_.Clone();
+      message_ = other.message_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1080,13 +1081,14 @@ namespace grpcServer {
 
     /// <summary>Field number for the "message" field.</summary>
     public const int MessageFieldNumber = 1;
-    private static readonly pb::FieldCodec<string> _repeated_message_codec
-        = pb::FieldCodec.ForString(10);
-    private readonly pbc::RepeatedField<string> message_ = new pbc::RepeatedField<string>();
+    private string message_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<string> Message {
+    public string Message {
       get { return message_; }
+      set {
+        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1104,7 +1106,7 @@ namespace grpcServer {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!message_.Equals(other.message_)) return false;
+      if (Message != other.Message) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1112,7 +1114,7 @@ namespace grpcServer {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= message_.GetHashCode();
+      if (Message.Length != 0) hash ^= Message.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1131,7 +1133,10 @@ namespace grpcServer {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      message_.WriteTo(output, _repeated_message_codec);
+      if (Message.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Message);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1142,7 +1147,10 @@ namespace grpcServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      message_.WriteTo(ref output, _repeated_message_codec);
+      if (Message.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Message);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1153,7 +1161,9 @@ namespace grpcServer {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      size += message_.CalculateSize(_repeated_message_codec);
+      if (Message.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1166,7 +1176,9 @@ namespace grpcServer {
       if (other == null) {
         return;
       }
-      message_.Add(other.message_);
+      if (other.Message.Length != 0) {
+        Message = other.Message;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1183,7 +1195,7 @@ namespace grpcServer {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            message_.AddEntriesFrom(input, _repeated_message_codec);
+            Message = input.ReadString();
             break;
           }
         }
@@ -1202,7 +1214,7 @@ namespace grpcServer {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            message_.AddEntriesFrom(ref input, _repeated_message_codec);
+            Message = input.ReadString();
             break;
           }
         }

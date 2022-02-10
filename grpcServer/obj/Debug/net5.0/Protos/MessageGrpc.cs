@@ -64,11 +64,18 @@ namespace grpcServer {
         __Marshaller_greet_MessageCountResponse);
 
     static readonly grpc::Method<global::grpcServer.UserMessagesRequest, global::grpcServer.UserMessagesResponse> __Method_GetUserMessages = new grpc::Method<global::grpcServer.UserMessagesRequest, global::grpcServer.UserMessagesResponse>(
-        grpc::MethodType.Unary,
+        grpc::MethodType.ServerStreaming,
         __ServiceName,
         "GetUserMessages",
         __Marshaller_greet_UserMessagesRequest,
         __Marshaller_greet_UserMessagesResponse);
+
+    static readonly grpc::Method<global::grpcServer.MessageRequest, global::grpcServer.MessageResponse> __Method_SendMessages = new grpc::Method<global::grpcServer.MessageRequest, global::grpcServer.MessageResponse>(
+        grpc::MethodType.ClientStreaming,
+        __ServiceName,
+        "SendMessages",
+        __Marshaller_greet_MessageRequest,
+        __Marshaller_greet_MessageResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -90,7 +97,12 @@ namespace grpcServer {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::grpcServer.UserMessagesResponse> GetUserMessages(global::grpcServer.UserMessagesRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task GetUserMessages(global::grpcServer.UserMessagesRequest request, grpc::IServerStreamWriter<global::grpcServer.UserMessagesResponse> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::grpcServer.MessageResponse> SendMessages(grpc::IAsyncStreamReader<global::grpcServer.MessageRequest> requestStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -104,7 +116,8 @@ namespace grpcServer {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
           .AddMethod(__Method_GetUserMessageCount, serviceImpl.GetUserMessageCount)
-          .AddMethod(__Method_GetUserMessages, serviceImpl.GetUserMessages).Build();
+          .AddMethod(__Method_GetUserMessages, serviceImpl.GetUserMessages)
+          .AddMethod(__Method_SendMessages, serviceImpl.SendMessages).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -115,7 +128,8 @@ namespace grpcServer {
     {
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::grpcServer.MessageRequest, global::grpcServer.MessageResponse>(serviceImpl.SendMessage));
       serviceBinder.AddMethod(__Method_GetUserMessageCount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::grpcServer.MessageCountRequest, global::grpcServer.MessageCountResponse>(serviceImpl.GetUserMessageCount));
-      serviceBinder.AddMethod(__Method_GetUserMessages, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::grpcServer.UserMessagesRequest, global::grpcServer.UserMessagesResponse>(serviceImpl.GetUserMessages));
+      serviceBinder.AddMethod(__Method_GetUserMessages, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::grpcServer.UserMessagesRequest, global::grpcServer.UserMessagesResponse>(serviceImpl.GetUserMessages));
+      serviceBinder.AddMethod(__Method_SendMessages, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::grpcServer.MessageRequest, global::grpcServer.MessageResponse>(serviceImpl.SendMessages));
     }
 
   }

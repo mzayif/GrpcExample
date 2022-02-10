@@ -43,17 +43,33 @@ namespace grpcServer
             });
         }
 
-
-        public override Task<UserMessagesResponse> GetUserMessages(UserMessagesRequest request, ServerCallContext context)
+        public override async Task GetUserMessages(UserMessagesRequest request, IServerStreamWriter<UserMessagesResponse> responseStream, ServerCallContext context)
         {
             System.Console.WriteLine("Start " + nameof(GetUserMessages) + " methot");
             System.Console.WriteLine("Request Name:" + request.UserName);
 
-            return Task.FromResult(new UserMessagesResponse
+            for (int i = 0; i < 10; i++)
             {
+                await Task.Delay(1000);
+                await responseStream.WriteAsync(new UserMessagesResponse{
+                    Message = i+". Sıradaki Mesaj"
+                });
+            }
+            //return base.GetUserMessages(request, responseStream, context);
+        }
 
-                //SendMessageCount = getMessages.Where(x=>x.UserName== request.UserName).Count()
-            });
+        public override async Task<MessageResponse> SendMessages(IAsyncStreamReader<MessageRequest> requestStream, ServerCallContext context)
+        {
+
+            while (await requestStream.MoveNext(context.CancellationToken))
+            {
+                System.Console.WriteLine($"Message: {requestStream.Current.Message} | User Name: {requestStream.Current.UserName}");
+            }
+
+            return new MessageResponse
+            {
+                Message = "Mesajların tamamı alınmıştır."
+            };
         }
     }
 }
