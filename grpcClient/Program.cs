@@ -13,6 +13,7 @@ namespace grpcClient
             var chanel = GrpcChannel.ForAddress("https://localhost:5001");
             //var greetClient = new Greeter.GreeterClient(chanel);
             var messageClient = new Message.MessageClient(chanel);
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             //   var response = greetClient.SayHello(new HelloRequest{
             //        Name="Mahmut"
@@ -36,7 +37,6 @@ namespace grpcClient
             ///Server Streaming 
 
             // var response = messageClient.GetUserMessages(new UserMessagesRequest { UserName = "Elif" });
-            // CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             // while (await response.ResponseStream.MoveNext(cancellationTokenSource.Token))
             // {
             //     System.Console.WriteLine($"Message: {response.ResponseStream.Current.Message}");
@@ -44,21 +44,41 @@ namespace grpcClient
 
 
             ///Client Streaming
-            System.Console.WriteLine("Mesaj gönderimi başladı. " + DateTime.Now);
-            var request = messageClient.SendMessages();
-            for (int i = 0; i < 10; i++)
+            // System.Console.WriteLine("Mesaj gönderimi başladı. " + DateTime.Now);
+            // var request = messageClient.SendMessages();
+            // for (int i = 0; i < 10; i++)
+            // {
+            //     await Task.Delay(1000);
+            //     await request.RequestStream.WriteAsync(new MessageRequest
+            //     {
+            //         Message = (i + 1) + ". Mesaj gönderildi",
+            //         UserName = "Elif"
+            //     });
+            // }
+            // System.Console.WriteLine("Mesaj gönderimi tamamlandı. " + DateTime.Now);
+            // System.Console.WriteLine("===========================================");
+            // await request.RequestStream.CompleteAsync(); // İşlemim bitti demek
+            // System.Console.WriteLine("Server Cevabı : " + (await request.ResponseAsync).Message);
+
+
+
+            ///Bi - Directional Streaming
+            System.Console.WriteLine("Mesajlaşma başladı. " + DateTime.Now);
+            var request = messageClient.SendChatMessage();
+            var task1 = Task.Run( async () =>
             {
-                await Task.Delay(1000);
-                await request.RequestStream.WriteAsync(new MessageRequest
+                for (int i = 0; i < 10; i++)
                 {
-                    Message = (i+1) + ". Mesaj gönderildi",
-                    UserName = "Elif"
-                });
-            }
-            System.Console.WriteLine("Mesaj gönderimi tamamlandı. " + DateTime.Now);            
-            System.Console.WriteLine("===========================================");
-            await request.RequestStream.CompleteAsync(); // İşlemim bitti demek
-            System.Console.WriteLine("Server Cevabı : " + (await request.ResponseAsync).Message);
+                    await Task.Delay(1000);
+                    await request.RequestStream.WriteAsync(new MessageRequest
+                    {
+                        Message = (i + 1) + ". Mesaj gönderildi",
+                        UserName = "Elif"
+                    });
+                }
+            });
+
+            while
         }
     }
 }

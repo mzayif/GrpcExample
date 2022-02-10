@@ -9,6 +9,7 @@ service Message {
   rpc GetUserMessageCount (MessageCountRequest) returns (MessageCountResponse);
   rpc GetUserMessages (UserMessagesRequest) returns (stream UserMessagesResponse);
   rpc SendMessages (stream MessageRequest) returns (MessageResponse);
+  rpc SendChatMessage (stream MessageRequest) returns (stream MessageResponse);
 }
 
 message MessageRequest {
