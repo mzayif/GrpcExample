@@ -1,0 +1,4 @@
+grpcServer/obj/
+grpcServer/bin/
+grpcClient/obj/
+grpcClient/bin/

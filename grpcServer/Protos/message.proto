@@ -7,7 +7,7 @@ package greet;
 service Message {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
   rpc GetUserMessageCount (MessageCountRequest) returns (MessageCountResponse);
-  rpc GetUserMessages (UserMessagesRequest) returns (UserMessagesResponse);
+  rpc GetUserMessages (UserMessagesRequest) returns (stream UserMessagesResponse);
 }
 
 message MessageRequest {
